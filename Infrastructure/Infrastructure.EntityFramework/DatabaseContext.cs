@@ -12,7 +12,7 @@ namespace Infrastructure.EntityFramework
         {
             Database.EnsureCreated();
         }
-        
+
         public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Setting> Settings { get; set; }
