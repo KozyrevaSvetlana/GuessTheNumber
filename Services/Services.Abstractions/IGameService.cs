@@ -1,7 +1,7 @@
 namespace Services.Abstractions
 {
     /// <summary>
-    /// Cервис работы с курсами (интерфейс)
+    /// Cервис работы с игрой (интерфейс)
     /// </summary>
     public interface IGameService
     {

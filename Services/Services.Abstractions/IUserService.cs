@@ -1,3 +1,6 @@
+using System.Threading.Tasks;
+using Domain.Entities;
+
 namespace Services.Abstractions
 {
     /// <summary>
@@ -5,5 +8,7 @@ namespace Services.Abstractions
     /// </summary>
     public interface IUserService
     {
+        Task<bool> ContainsUserAsync(string username);
+        Task<User> GetByUserNameAsync(string username);
     }
 }
