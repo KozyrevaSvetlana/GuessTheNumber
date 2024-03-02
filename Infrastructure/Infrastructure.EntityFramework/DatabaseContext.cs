@@ -1,4 +1,4 @@
-﻿using GuessTheNumberDB.Models;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EntityFramework

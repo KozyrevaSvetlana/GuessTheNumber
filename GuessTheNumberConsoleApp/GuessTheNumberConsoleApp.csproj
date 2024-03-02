@@ -166,5 +166,15 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.Entities\Domain.Entities.csproj">
+      <Project>{3518d316-32fd-4e90-842b-c27289f6d68e}</Project>
+      <Name>Domain.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.Contracts\Services.Contracts.csproj">
+      <Project>{3d75824d-7aee-49d3-aabf-801f42120c2f}</Project>
+      <Name>Services.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
