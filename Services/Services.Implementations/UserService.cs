@@ -23,6 +23,14 @@ namespace Services.Implementations
                 .AnyAsync(x=> x.Name.ToLower() == username.ToLower().Trim());
         }
 
+        public async Task CreateAsync(User user)
+        {
+            if (await ContainsUserAsync(user.Name))
+                throw new TaskCanceledException("Такой пользователь уже существует!");
+            await databaseContext.Users.AddAsync(user);
+            await databaseContext.SaveChangesAsync();
+        }
+
         public async Task<User> GetByUserNameAsync(string username)
         {
             return await databaseContext.Users

@@ -24,23 +24,17 @@ namespace GuessTheNumberConsoleApp.Services.Models
         {
             Console.WriteLine("Здравствуйте. Как Вас зовут?");
             var input = Console.ReadLine();
-            while (!_validation.IsValidName(input))
+            while (string.IsNullOrEmpty(input) || !_validation.IsValidName(input))
             {
                 Console.WriteLine("Имя не корректно. Можно использовать только Кириллицу и цифры. Напишите свое имя еще раз");
                 input = Console.ReadLine();
             }
-
-            UserDTO? user = null;
-            User? userDB = null;
             if (!await _userService.ContainsUserAsync(input))
             {
-                userDB = await _userService.GetByUserNameAsync(input);
+                await _userService.CreateAsync(input.ToUserDB());
             }
-            else
-            {
-                userDB = await _userService.GetByUserNameAsync(input);
-            }
-            user = userDB.ToUserDTO();
+            var userDB = await _userService.GetByUserNameAsync(input);
+            var user = userDB.ToUserDTO();
             Console.WriteLine($"{user.Name}");
             Console.ReadLine();
             // вход
@@ -55,17 +49,5 @@ namespace GuessTheNumberConsoleApp.Services.Models
 
             // предложить варианты (меню)
         }
-
-
-        public Task CreateUser()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task GetUserByName(string username)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

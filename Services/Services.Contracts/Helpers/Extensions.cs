@@ -11,5 +11,21 @@ namespace Services.Contracts.Helpers
                 Name = user.Name
             };
         }
+
+        public static User ToUserDB(this UserDTO user)
+        {
+            return new User
+            {
+                Name = user.Name
+            };
+        }
+
+        public static User ToUserDB(this string username)
+        {
+            return new User
+            {
+                Name = username
+            };
+        }
     }
 }

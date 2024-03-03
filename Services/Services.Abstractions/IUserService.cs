@@ -10,5 +10,6 @@ namespace Services.Abstractions
     {
         Task<bool> ContainsUserAsync(string username);
         Task<User> GetByUserNameAsync(string username);
+        Task CreateAsync(User user);
     }
 }
