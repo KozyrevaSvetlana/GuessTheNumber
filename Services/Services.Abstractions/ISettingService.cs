@@ -1,7 +1,7 @@
 namespace Services.Abstractions
 {
     /// <summary>
-    /// Cервис работы с курсами (интерфейс)
+    /// Cервис работы с настройками (интерфейс)
     /// </summary>
     public interface ISettingService
     {

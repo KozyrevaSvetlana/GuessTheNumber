@@ -1,4 +1,9 @@
-﻿using Services.Abstractions;
+﻿using Domain.Entities;
+using Infrastructure.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+using Services.Abstractions;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Services.Implementations
 {
@@ -7,20 +12,24 @@ namespace Services.Implementations
     /// </summary>
     public class GameService : IGameService
     {
-
-        public GameService()
+        private readonly DatabaseContext databaseContext;
+        public GameService(DatabaseContext databaseContext)
         {
+            this.databaseContext = databaseContext;
         }
 
-        ///// <summary>
-        ///// Получить
-        ///// </summary>
-        ///// <param name="id">идентификатор</param>
-        ///// <returns>ДТО курса</returns>
-        //public async Task<CourseDto> GetById(int id)
-        //{
-        //    var course = await _courseRepository.GetAsync(id);
-        //    return _mapper.Map<CourseDto>(course);
-        //}
+        public async Task<bool> AnyInProcessAsync(string userName)
+        {
+            return await databaseContext.Games
+                .Include(x => x.User)
+                .Select(x => x.User)
+                .AnyAsync(x => x.Name == userName);
+        }
+
+        public async Task CreateAsync(Game game)
+        {
+            await databaseContext.Games.AddAsync(game);
+            await databaseContext.SaveChangesAsync();
+        }
     }
 }

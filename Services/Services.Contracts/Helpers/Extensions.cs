@@ -27,5 +27,25 @@ namespace Services.Contracts.Helpers
                 Name = username
             };
         }
+
+        public static Setting ToSettingDB(this SettingDTO settingDTO)
+        {
+            return new Setting
+            {
+                DifficultyLevel = (int)settingDTO.DifficultyLevel,
+                Since = settingDTO.Since,
+                For = settingDTO.For
+            };
+        }
+        public static Game ToGameDB(this GameDTO game)
+        {
+            return new Game
+            {
+                Status = (int)game.Status,
+                User = game.User.ToUserDB(),
+                Setting = game.Settings.ToSettingDB(),
+                HiddenNumber = game.HiddenNumber
+            };
+        }
     }
 }

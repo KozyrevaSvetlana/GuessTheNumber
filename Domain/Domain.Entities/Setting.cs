@@ -8,11 +8,11 @@ namespace Domain.Entities
         /// <summary>
         /// Название уровня сложности
         /// </summary>
-        public string DifficultyLevel { get; set; }
+        public int DifficultyLevel { get; set; }
         /// <summary>
         /// Количество попыток
         /// </summary>
-        public int Attempts { get; set; }
+        public int Attempts { get; set; } = default(int);
         /// <summary>
         /// С какого числа начинается последовательность
         /// </summary>

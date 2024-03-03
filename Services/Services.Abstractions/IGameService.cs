@@ -1,3 +1,6 @@
+using Domain.Entities;
+using System.Threading.Tasks;
+
 namespace Services.Abstractions
 {
     /// <summary>
@@ -5,5 +8,7 @@ namespace Services.Abstractions
     /// </summary>
     public interface IGameService
     {
+        Task<bool> AnyInProcessAsync(string userName);
+        Task CreateAsync(Game game);
     }
 }

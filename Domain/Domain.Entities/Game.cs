@@ -13,5 +13,9 @@
         /// Текущая попытка
         /// </summary>
         public int CurrentAttempt { get; set; }
+        /// <summary>
+        /// Загаданное число
+        /// </summary>
+        public int HiddenNumber { get; set; }
     }
 }

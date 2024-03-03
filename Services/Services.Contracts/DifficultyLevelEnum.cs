@@ -5,11 +5,13 @@ namespace Services.Contracts
     public enum DifficultyLevelEnum
     {
         None = 0,
-        [Description("В процессе")]
-        InProgress = 1,
-        [Description("Завершена")]
-        Finished,
-        [Description("Отменена")]
-        Canceled
+        [Description("Простая")]
+        Easy = 1,
+        [Description("Средняя")]
+        Medium,
+        [Description("Сложная")]
+        Hard,
+        [Description("Камикадзе")]
+        ExptraHard
     }
 }

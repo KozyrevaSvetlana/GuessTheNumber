@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Options;
 
 namespace GuessTheNumberConsoleApp.Services.Interfaces
 {
     public interface IValidation
     {
         bool IsValidName(string name);
+        bool IsValidAnswer(string answer);
+        bool IsPositiveAnswer(string answer);
+        bool IsNegativeAnswer(string answer);
+        bool IsValidHandleAnswer(List<string> options, string answer);
     }
 }

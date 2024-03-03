@@ -17,7 +17,7 @@ namespace Services.Implementations
             this.databaseContext = databaseContext;
         }
 
-        public async Task<bool> ContainsUserAsync(string username)
+        public async Task<bool> ContainsAsync(string username)
         {
             return await databaseContext.Users
                 .AnyAsync(x=> x.Name.ToLower() == username.ToLower().Trim());
@@ -25,13 +25,13 @@ namespace Services.Implementations
 
         public async Task CreateAsync(User user)
         {
-            if (await ContainsUserAsync(user.Name))
+            if (await ContainsAsync(user.Name))
                 throw new TaskCanceledException("Такой пользователь уже существует!");
             await databaseContext.Users.AddAsync(user);
             await databaseContext.SaveChangesAsync();
         }
 
-        public async Task<User> GetByUserNameAsync(string username)
+        public async Task<User> GetByNameAsync(string username)
         {
             return await databaseContext.Users
                 .Include(x=> x.Games)
