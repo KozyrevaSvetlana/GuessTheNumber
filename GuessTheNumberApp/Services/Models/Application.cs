@@ -9,7 +9,6 @@ namespace GuessTheNumberConsoleApp.Services.Models
     {
         private readonly IGameService _game;
         private readonly IUserService _userService;
-        private readonly ISettingService _settingService;
         private readonly IValidation _validation;
         public Application(IGameService gameService, IUserService userService, ISettingService settingService, IValidation validation)
         {
