@@ -93,7 +93,6 @@ namespace GuessTheNumberConsoleApp.Services.Models
             Console.WriteLine("3 - Сложная. Угадываем с 1 до 1 000. Количество попыток - 100");
             Console.WriteLine("4 - Камикадзе. Угадываем с 1 до 1 000 000 000. Количество попыток - 3");
         }
-
         private async Task<int> WriteGuessNumber(int start, int end, int gameId)
         {
             Console.WriteLine($"Напиши число {start} от до {end}");
