@@ -38,7 +38,7 @@ namespace GuessTheNumberConsoleApp.Services.Models
             var userDB = await _userService.GetByNameAsync(input);
             var user = userDB.ToUserDTO();
             #endregion
-            #region продолжение или начало новой игры
+            #region продолжение последней игры
             if (await _game.AnyInProcessAsync(user.Name))
             {
                 Console.WriteLine("Хотите продолжить последнюю игру?");
@@ -50,10 +50,12 @@ namespace GuessTheNumberConsoleApp.Services.Models
                 }
 
                 if (_validation.IsNegativeAnswer(input))
-                    return;
+                {
+
+                }
             }
             #endregion
-
+            #region начало новой игры
             // новая игра
             WriteSettingsText();
             input = Console.ReadLine();
@@ -66,13 +68,21 @@ namespace GuessTheNumberConsoleApp.Services.Models
             var selectedSetting = (DifficultyLevelEnum)Enum.Parse(typeof(DifficultyLevelEnum), input, true);
             var setting = new SettingDTO(selectedSetting);
             var game = new GameDTO(user, setting);
-            await _game.CreateAsync(game.ToGameDB());
-            Console.WriteLine("Выбор сохранен. Введите число");
-            // проверка ответа
-
-            // окончание игры
-
-            // предложить варианты (меню)
+            var gameId = await _game.CreateAsync(game.ToGameDB());
+            #endregion
+            #region проверка ответа
+            Console.WriteLine("Выбор сохранен");
+            var estimatedNumber = await WriteGuessNumber(setting.Since, setting.For, gameId);
+            while (!await _game.IsSameNumber(gameId, estimatedNumber))
+            {
+                estimatedNumber = await WriteGuessNumber(setting.Since, setting.For, gameId);
+            }
+            #endregion
+            #region окончание игры
+            await _game.ChangeStatus(gameId, (int)StatusEnum.Finished);
+            var gameDB = await _game.Get(gameId);
+            Console.WriteLine($"Поздравляем! Игра осончена. Вы угадали число {game.HiddenNumber}! Количество попыток - {gameDB.CurrentAttempt}");
+            #endregion
         }
 
         private static void WriteSettingsText()
@@ -82,6 +92,18 @@ namespace GuessTheNumberConsoleApp.Services.Models
             Console.WriteLine("2 - Средняя. Угадываем с 1 до 100. Количество попыток - 50");
             Console.WriteLine("3 - Сложная. Угадываем с 1 до 1 000. Количество попыток - 100");
             Console.WriteLine("4 - Камикадзе. Угадываем с 1 до 1 000 000 000. Количество попыток - 3");
+        }
+
+        private async Task<int> WriteGuessNumber(int start, int end, int gameId)
+        {
+            Console.WriteLine($"Напиши число {start} от до {end}");
+            var input = Console.ReadLine();
+            int estimatedNumber = -1;
+            while (string.IsNullOrEmpty(input) || !Int32.TryParse(input, out estimatedNumber))
+            {
+                await WriteGuessNumber(start, end, gameId);
+            }
+            return estimatedNumber;
         }
     }
 }

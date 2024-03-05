@@ -9,6 +9,9 @@ namespace Services.Abstractions
     public interface IGameService
     {
         Task<bool> AnyInProcessAsync(string userName);
-        Task CreateAsync(Game game);
+        Task<int> CreateAsync(Game game);
+        Task<bool> IsSameNumber(int gameId, int number);
+        Task ChangeStatus(int gameId, int status);
+        Task<Game> Get(int gameId);
     }
 }

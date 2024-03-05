@@ -26,10 +26,41 @@ namespace Services.Implementations
                 .AnyAsync(x => x.Name == userName);
         }
 
-        public async Task CreateAsync(Game game)
+        public async Task<int> CreateAsync(Game game)
         {
             await databaseContext.Games.AddAsync(game);
             await databaseContext.SaveChangesAsync();
+            return game.Id;
+        }
+
+        public async Task<bool> IsSameNumber(int gameId, int number)
+        {
+            var game = await databaseContext.Games.FirstOrDefaultAsync(x => x.Id == gameId);
+            if (game == null)
+                throw new System.Exception("Такой игры нет");
+            game.CurrentAttempt++;
+            await databaseContext.SaveChangesAsync();
+            return game.HiddenNumber == number;
+        }
+        public async Task<Game> Get(int gameId)
+        {
+            return await databaseContext.Games.FirstOrDefaultAsync(x => x.Id == gameId);
+        }
+
+        public async Task<int> GetFinal(int gameId)
+        {
+            var game = await Get(gameId);
+            if (game == null)
+                throw new System.Exception("Такой игры нет");
+            return game.CurrentAttempt;
+        }
+
+        public async Task ChangeStatus(int gameId, int status)
+        {
+            var game = await Get(gameId);
+            if (game == null)
+                throw new System.Exception("Такой игры нет");
+            game.Status = status;
         }
     }
 }
