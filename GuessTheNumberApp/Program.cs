@@ -1,15 +1,12 @@
 ﻿using GuessTheNumberConsoleApp.Services.Interfaces;
 using GuessTheNumberConsoleApp.Services.Models;
 using Infrastructure.EntityFramework;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging.Console;
 using Services.Abstractions;
 using Services.Implementations;
-using Microsoft.Extensions.Logging;
 
 namespace GuessTheNumberApp
 {
