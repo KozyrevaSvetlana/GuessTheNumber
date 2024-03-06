@@ -44,8 +44,8 @@ namespace GuessTheNumberApp
                     });
                 });
                 var app = host.Build();
-                var monitorLoop = app.Services.GetRequiredService<IApplication>();
-                await monitorLoop.RunAsync();
+                var application = app.Services.GetRequiredService<IApplication>();
+                await application.RunAsync();
             }
             catch (Exception e)
             {
