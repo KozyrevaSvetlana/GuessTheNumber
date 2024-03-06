@@ -1,12 +1,15 @@
 ﻿using GuessTheNumberConsoleApp.Services.Interfaces;
 using GuessTheNumberConsoleApp.Services.Models;
 using Infrastructure.EntityFramework;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging.Console;
 using Services.Abstractions;
 using Services.Implementations;
+using Microsoft.Extensions.Logging;
 
 namespace GuessTheNumberApp
 {
@@ -38,7 +41,10 @@ namespace GuessTheNumberApp
                     services.AddTransient<IGameService, GameService>();
                     services.AddTransient<IUserService, UserService>();
                     services.AddTransient<ISettingService, SettingService>();
-                    services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
+                    services.AddDbContext<DatabaseContext>(options =>
+                    {
+                        options.UseSqlServer(connectionString);
+                    });
                 });
                 var app = host.Build();
                 var monitorLoop = app.Services.GetRequiredService<IApplication>();
