@@ -33,7 +33,7 @@ namespace Services.Implementations
             return game.Id;
         }
 
-        public async Task<bool> IsSameNumber(int gameId, int number)
+        public virtual async Task<bool> IsSameNumber(int gameId, int number)
         {
             var game = await databaseContext.Games.FirstOrDefaultAsync(x => x.Id == gameId);
             if (game == null)

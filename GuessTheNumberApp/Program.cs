@@ -35,7 +35,7 @@ namespace GuessTheNumberApp
                 {
                     services.AddTransient<IApplication, Application>();
                     services.AddTransient<IValidation, Validation>();
-                    services.AddTransient<IGameService, GameService>();
+                    services.AddTransient<IGameService, FastGameService>();
                     services.AddTransient<IUserService, UserService>();
                     services.AddTransient<ISettingService, SettingService>();
                     services.AddDbContext<DatabaseContext>(options =>

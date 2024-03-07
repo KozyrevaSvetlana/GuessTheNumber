@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using GuessTheNumberConsoleApp.Services.Interfaces;
+﻿using GuessTheNumberConsoleApp.Services.Interfaces;
 using Services.Abstractions;
 using Services.Contracts;
 using Services.Contracts.Helpers;
@@ -22,11 +21,14 @@ namespace GuessTheNumberConsoleApp.Services.Models
         {
             var input = GetUser();
             var userDTO = await SaveUser(input);
+            int? gameId = null;
             SettingDTO? setting = null;
             input = await ContinueLastGame(input, userDTO);
-            var gameId = await StartNewGame(input, userDTO, setting);
-            await CheckAnswer(setting, gameId);
-            await Finish(gameId);
+            var result = await StartNewGame(input, userDTO);
+            setting = result.setting;
+            gameId = result.id;
+            await CheckAnswer(setting, gameId!.Value);
+            await Finish(gameId!.Value);
         }
 
         private async Task Finish(int gameId)
@@ -90,9 +92,8 @@ namespace GuessTheNumberConsoleApp.Services.Models
             }
             return input;
         }
-        private async Task<int> StartNewGame(string? input, UserDTO userDTO, SettingDTO? setting)
+        private async Task<(SettingDTO? setting, int id)> StartNewGame(string? input, UserDTO userDTO)
         {
-            #region начало новой игры
             // новая игра
             WriteSettingsText();
             input = Console.ReadLine();
@@ -103,10 +104,10 @@ namespace GuessTheNumberConsoleApp.Services.Models
                 input = Console.ReadLine();
             }
             var selectedSetting = (DifficultyLevelEnum)Enum.Parse(typeof(DifficultyLevelEnum), input, true);
-            setting = new SettingDTO(selectedSetting);
+            var setting = new SettingDTO(selectedSetting);
             var game = new GameDTO(userDTO, setting);
-            return await _game.CreateAsync(game.ToGameDB());
-            #endregion
+            var gameId = await _game.CreateAsync(game.ToGameDB());
+            return new(setting, gameId);
         }
         private static void WriteSettingsText()
         {
