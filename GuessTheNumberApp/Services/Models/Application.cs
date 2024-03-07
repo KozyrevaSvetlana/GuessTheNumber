@@ -21,14 +21,10 @@ namespace GuessTheNumberConsoleApp.Services.Models
         {
             var input = GetUser();
             var userDTO = await SaveUser(input);
-            int? gameId = null;
-            SettingDTO? setting = null;
             input = await ContinueLastGame(input, userDTO);
             var result = await StartNewGame(input, userDTO);
-            setting = result.setting;
-            gameId = result.id;
-            await CheckAnswer(setting, gameId!.Value);
-            await Finish(gameId!.Value);
+            await CheckAnswer(result.setting, result.id);
+            await Finish(result.id);
         }
 
         private async Task Finish(int gameId)
